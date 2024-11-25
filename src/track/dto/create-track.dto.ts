@@ -1,9 +1,10 @@
-import { IsNumber, IsNotEmpty } from 'class-validator';
+import { IsNumber, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateTrackDto {
     @IsNotEmpty()
     data: any
     @IsNumber()
+    @IsOptional()
     count?: number
 }
  
