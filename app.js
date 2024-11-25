@@ -12,7 +12,11 @@ app.post('/track', async (req, res) => {
     const data = req.body;
 
     if (data.count) {
-        await redis.incrby('count', data.count);
+        try {
+            await redis.incrby('count', data.count);
+        } catch (err) {
+            return res.status(500).send({ message: 'Error updating Redis count.' });
+        }
     }
 
     fs.appendFile('./data.json', JSON.stringify(data) + '\n', (err) => {
