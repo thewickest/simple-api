@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, InternalServerErrorException } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { appendFileSync } from 'fs';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -17,7 +17,7 @@ export class TrackService {
       appendFileSync('./local-file.txt', `${createTrackDto.data}\n`)
       return createTrackDto
     } catch (e) {
-      console.log('This is an error')
+      throw new InternalServerErrorException
     }
   }
 }
