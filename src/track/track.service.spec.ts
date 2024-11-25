@@ -49,7 +49,7 @@ describe('TrackService', () => {
 
     expect(cacheService.get).toHaveBeenCalledWith('count');
     expect(cacheService.set).toHaveBeenCalledWith('count', 15);
-    expect(appendFileSync).toHaveBeenCalledWith('./local-file.txt', 'data\n');
+    expect(appendFileSync).toHaveBeenCalledWith('./data.json',  `${JSON.stringify(createTrackDto)}\n`);
     expect(result).toEqual(createTrackDto);
   });
 
@@ -61,7 +61,7 @@ describe('TrackService', () => {
 
     expect(cacheService.get).toHaveBeenCalledWith('count');
     expect(cacheService.set).toHaveBeenCalledWith('count', 3);
-    expect(appendFileSync).toHaveBeenCalledWith('./local-file.txt', 'another data\n');
+    expect(appendFileSync).toHaveBeenCalledWith('./data.json',  `${JSON.stringify(createTrackDto)}\n`);
     expect(result).toEqual(createTrackDto);
   });
 
@@ -72,7 +72,7 @@ describe('TrackService', () => {
 
     expect(cacheService.get).not.toHaveBeenCalled();
     expect(cacheService.set).not.toHaveBeenCalled();
-    expect(appendFileSync).toHaveBeenCalledWith('./local-file.txt', 'data without count\n');
+    expect(appendFileSync).toHaveBeenCalledWith('./data.json',  `${JSON.stringify(createTrackDto)}\n`);
     expect(result).toEqual(createTrackDto);
   });
 

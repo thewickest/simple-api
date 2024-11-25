@@ -14,7 +14,7 @@ export class TrackService {
         const count = Number(await this.cacheService.get('count')) || 0
         await this.cacheService.set('count', count + createTrackDto.count)
       }
-      appendFileSync('./local-file.txt', `${createTrackDto.data}\n`)
+      appendFileSync('./data.json', `${JSON.stringify(createTrackDto)}\n`)
       return createTrackDto
     } catch (e) {
       throw new InternalServerErrorException
