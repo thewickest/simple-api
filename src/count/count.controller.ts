@@ -7,6 +7,6 @@ export class CountController {
 
   @Get()
   findAll() {
-    return this.countService.findAll();
+    return this.countService.getCount();
   }
 }

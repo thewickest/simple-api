@@ -1,26 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
-import { UpdateTrackDto } from './dto/update-track.dto';
+import { appendFileSync } from 'fs';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class TrackService {
-  create(createTrackDto: CreateTrackDto) {
-    return 'This action adds a new track';
-  }
+  constructor(@Inject(CACHE_MANAGER) private cacheService: Cache) {}
 
-  findAll() {
-    return `This action returns all track`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} track`;
-  }
-
-  update(id: number, updateTrackDto: UpdateTrackDto) {
-    return `This action updates a #${id} track`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} track`;
+  async create(createTrackDto: CreateTrackDto) {
+    try {
+      if(createTrackDto.count) {
+        const count = Number(await this.cacheService.get('count')) || 0
+        await this.cacheService.set('count', count + createTrackDto.count)
+      }
+      appendFileSync('./local-file.txt', `${createTrackDto.data}\n`)
+      return createTrackDto
+    } catch (e) {
+      console.log('This is an error')
+    }
   }
 }

@@ -1,26 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCountDto } from './dto/create-count.dto';
-import { UpdateCountDto } from './dto/update-count.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class CountService {
-  create(createCountDto: CreateCountDto) {
-    return 'This action adds a new count';
-  }
+  constructor(@Inject(CACHE_MANAGER) private cacheService: Cache) {}
 
-  findAll() {
-    return `This action returns all count`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} count`;
-  }
-
-  update(id: number, updateCountDto: UpdateCountDto) {
-    return `This action updates a #${id} count`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} count`;
+  async getCount() {
+    return await this.cacheService.get('count');
   }
 }
